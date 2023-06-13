@@ -6,13 +6,15 @@ import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class User {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 	@Column(name="name")
@@ -32,8 +34,6 @@ public class User {
 	
 	@Column(name="posts")
 	private List<Post> posts;
-
-	public User() {}
 
 	public User(String name, String email, String password, Date createdDate, Date lastModifiedDate,
 			List<Post> posts) {
