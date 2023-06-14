@@ -1,6 +1,7 @@
 package com.socialmediaapp.socialmediaapp.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,19 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.socialmediaapp.socialmediaapp.model.Post;
 import com.socialmediaapp.socialmediaapp.model.User;
-import com.socialmediaapp.socialmediaapp.repository.UserRepository;
 import com.socialmediaapp.socialmediaapp.service.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://127.0.0.1:5555"})
 public class LoginController {
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
     UserService userService;
-
+   
+    //=============================================================
+    //Functions in login/register
+    
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody User loginUser) {
         User user = userService.validateUser(loginUser.getUsername(), loginUser.getPassword());
@@ -39,28 +39,81 @@ public class LoginController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User newUser) {
-        newUser.setRole("USER");
-        userRepository.save(newUser);
+        if(userService.verifyUsername(newUser)) {
+        	//If the username already exists, return a conflict error
+        	return new ResponseEntity<>(null,HttpStatus.CONFLICT);
+        }
+    	newUser.setRole("USER");
+        userService.createUser(newUser);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
-
+    
+    @GetMapping("/user/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+    User user = userService.getUserByUsername(username);
+    if(user != null) {
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    	}
+    	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+    
+    //=============================================================
+    //Functions in welcome (feed of all posts, sorted in ??)
+    
+    //=============================================================
+    //Functions in Admin Page 
+    
+    
+    //=============================================================
+    //Functions in userposts/username (profile)
+    
+    //Get List of Posts by Username (tested)
     @GetMapping("/userposts/{username}")
     public ResponseEntity<List<Post>> getUserPosts(@PathVariable String username) {
-        List<Post> posts = userService.getUserPosts(username);
+        List<Post> posts = userService.getAllPostByUser(username);
         if(posts != null) {
             return new ResponseEntity<>(posts, HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
     
-    @GetMapping("/user/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-    User user = userRepository.findByUsername(username);
-    if(user != null) {
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    	}
-    	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    //Create a post with postID, tied to username (not tested)
+    @PostMapping("/userposts/{username}/post/")
+    public ResponseEntity<Post> createUserPostByUsername(@RequestBody Post newPost, @PathVariable String username){
+    	userService.createPost(newPost);
+    	return new ResponseEntity<>(newPost, HttpStatus.CREATED);
     }
+        
+    //Update a post by its postID, tied to username (not tested)
+    @GetMapping("/userposts/{username}/update/{post_id}/")
+    public ResponseEntity<List<Post>> updateUserPostByUsername(@PathVariable String username, @PathVariable int post_id) {
+        List<Post> posts = userService.getAllPostByUser(username);
+        if(posts != null) {      	
+			Optional<Post> post = userService.getPostByPostId(post_id);
+			if(post!=null){
+				//update post using POST
+        		userService.updatePostByPostId(post);
+        		return new ResponseEntity<>(posts, HttpStatus.OK);
+        	}
+        	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+    
+    //Delete a post by its postID, tied to username (tested)
+    @GetMapping("/userposts/{username}/delete/{post_id}")
+    public ResponseEntity<List<Post>> deleteUserPostByUsername(@PathVariable String username, @PathVariable int post_id) {
+        List<Post> posts = userService.getAllPostByUser(username);
+        if(posts != null) {
+        	//Delete action
+        	userService.deletePostByPostId(post_id);
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+    
+
+
 
 }
 
