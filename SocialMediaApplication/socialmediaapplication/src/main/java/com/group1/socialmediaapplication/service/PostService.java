@@ -1,13 +1,12 @@
 package com.group1.socialmediaapplication.service;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.group1.socialmediaapplication.entity.Post;
-import com.group1.socialmediaapplication.entity.User;
 import com.group1.socialmediaapplication.repository.PostRepository;
 
 @Service
@@ -26,8 +25,8 @@ public class PostService {
 	}
 	
 	//Create Action
-	public void createPostToRepo(String caption, String posttype, String url, User createdBy, Date createdDate) {
-		post_repo.save((new Post(caption,posttype,posttype,createdBy,createdDate)));
+	public void createPostToRepo(String caption, String posttype, String url, LocalDateTime createdDate) {
+		post_repo.save((new Post(caption,posttype,posttype,createdDate)));
 	}
 	
 	//Read Action

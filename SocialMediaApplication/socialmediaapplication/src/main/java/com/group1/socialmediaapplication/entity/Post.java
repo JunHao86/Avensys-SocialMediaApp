@@ -1,6 +1,6 @@
 package com.group1.socialmediaapplication.entity;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,30 +24,25 @@ public class Post {
 	@Column(name="url")
 	private String url;
 	
-	@Column(name="createdBy")
-	private User createdBy;
-	
 	@Column(name="createdDate")
-	private Date createdDate;
+	private LocalDateTime createdDate;
 
 	public Post() {}
 	
-	public Post(int id, String caption, String posttype, String url, User createdBy, Date createdDate) {
+	public Post(int id, String caption, String posttype, String url, LocalDateTime createdDate) {
 		super();
 		this.id = id;
 		this.caption = caption;
 		this.posttype = posttype;
 		this.url = url;
-		this.createdBy = createdBy;
 		this.createdDate = createdDate;
 	}
 	
-	public Post(String caption, String posttype, String url, User createdBy, Date createdDate) {
+	public Post(String caption, String posttype, String url, LocalDateTime createdDate) {
 		super();
 		this.caption = caption;
 		this.posttype = posttype;
 		this.url = url;
-		this.createdBy = createdBy;
 		this.createdDate = createdDate;
 	}
 
@@ -83,28 +78,21 @@ public class Post {
 		this.url = url;
 	}
 
-	public User getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(User createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
 	@Override
 	public String toString() {
-		return "Post [id=" + id + ", caption=" + caption + ", posttype=" + posttype + ", url=" + url + ", createdBy="
-				+ createdBy + ", createdDate=" + createdDate + "]";
+		return "Post [id=" + id + ", caption=" + caption + ", posttype=" + posttype + ", url=" + url + ", createdDate="
+				+ createdDate + "]";
 	}
-	
-	
+
+
+	 
 	
 }
