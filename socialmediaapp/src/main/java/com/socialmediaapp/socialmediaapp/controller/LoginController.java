@@ -39,7 +39,11 @@ public class LoginController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User newUser) {
-        newUser.setRole("USER");
+        if(userService.verifyUsername(newUser)) {
+        	//If the username already exists, return a conflict error
+        	return new ResponseEntity<>(null,HttpStatus.CONFLICT);
+        }
+    	newUser.setRole("USER");
         userService.createUser(newUser);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
