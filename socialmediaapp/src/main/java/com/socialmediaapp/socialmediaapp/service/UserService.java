@@ -27,8 +27,16 @@ public class UserService {
         return user;
     }
     
+    
+    
     //=============================================================
     //User Service
+    
+    
+    //Validation - used in @PostMapping("/register") (tested)
+    public boolean verifyUsername(User newUser) {
+    	return userRepository.existsByUsername(newUser.getUsername());
+    }
     
     //Create - used in @PostMapping("/register") (tested)
     public void createUser(User newUser){
