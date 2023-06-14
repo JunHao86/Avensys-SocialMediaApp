@@ -24,6 +24,9 @@ public class LoginController {
     @Autowired
     UserService userService;
    
+    //=============================================================
+    //Functions in login/register
+    
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody User loginUser) {
         User user = userService.validateUser(loginUser.getUsername(), loginUser.getPassword());
@@ -41,8 +44,6 @@ public class LoginController {
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
     
-    //=============================================================
-    
     @GetMapping("/user/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
     User user = userService.getUserByUsername(username);
@@ -53,12 +54,19 @@ public class LoginController {
     }
     
     //=============================================================
+    //Functions in welcome (feed of all posts, sorted in ??)
+    
+    //=============================================================
+    //Functions in Admin Page 
+    
+    
+    //=============================================================
     //Functions in userposts/username (profile)
     
-    //Get List of Posts by Username (works)
+    //Get List of Posts by Username (tested)
     @GetMapping("/userposts/{username}")
     public ResponseEntity<List<Post>> getUserPosts(@PathVariable String username) {
-        List<Post> posts = userService.getUserPosts(username);
+        List<Post> posts = userService.getAllPostByUser(username);
         if(posts != null) {
             return new ResponseEntity<>(posts, HttpStatus.OK);
         }
@@ -75,7 +83,7 @@ public class LoginController {
     //Update a post by its postID, tied to username (not tested)
     @GetMapping("/userposts/{username}/update/{post_id}/")
     public ResponseEntity<List<Post>> updateUserPostByUsername(@PathVariable String username, @PathVariable int post_id) {
-        List<Post> posts = userService.getUserPosts(username);
+        List<Post> posts = userService.getAllPostByUser(username);
         if(posts != null) {      	
 			Optional<Post> post = userService.getPostByPostId(post_id);
 			if(post!=null){
@@ -91,7 +99,7 @@ public class LoginController {
     //Delete a post by its postID, tied to username (tested)
     @GetMapping("/userposts/{username}/delete/{post_id}")
     public ResponseEntity<List<Post>> deleteUserPostByUsername(@PathVariable String username, @PathVariable int post_id) {
-        List<Post> posts = userService.getUserPosts(username);
+        List<Post> posts = userService.getAllPostByUser(username);
         if(posts != null) {
         	//Delete action
         	userService.deletePostByPostId(post_id);
