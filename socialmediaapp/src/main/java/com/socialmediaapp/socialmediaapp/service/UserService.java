@@ -98,4 +98,4 @@ public class UserService {
 		postRepository.deleteById(post_id);
 	}
 
-}
+} 
