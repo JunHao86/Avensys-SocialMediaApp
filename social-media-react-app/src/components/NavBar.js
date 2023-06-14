@@ -29,7 +29,7 @@ function NavBar() {
           <Nav className="mr-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#link">All Posts</Nav.Link>
-            {user.role === 'Admin' && <Nav.Link href="#link">Admin Controls</Nav.Link>}
+            {user.role === 'ADMIN' && <Nav.Link href="#link">Admin Controls</Nav.Link>}
           </Nav>
           <Dropdown>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
