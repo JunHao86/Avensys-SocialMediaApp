@@ -19,11 +19,14 @@ public class UserService {
     @Autowired
     PostRepository postRepository;
 
+    //=============================================================
+    //User Service
+    
     public User validateUser(String username, String password) {
         User user = userRepository.findByUsernameAndPassword(username, password);
         return user;
     }
-
+    
     public List<Post> getUserPosts(String username) {
         User user = userRepository.findByUsername(username);
         return postRepository.findAllByUser(user);
@@ -33,4 +36,15 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    
+   //=============================================================
+   //Post Service
+    
+	public void updatePostByPostId(Post post) {
+		postRepository.save(post);
+	}
+    
+	public void deletePostByPostId(int id) {
+		postRepository.deleteById(id);
+	}
 }
