@@ -1,10 +1,10 @@
-package com.group1.socialmediaapplication;
+package com.socialmediaapp.socialmediaapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SocialmediaapplicationApplicationTests {
+class SocialmediaappApplicationTests {
 
 	@Test
 	void contextLoads() {
