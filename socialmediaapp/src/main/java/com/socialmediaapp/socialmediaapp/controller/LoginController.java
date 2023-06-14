@@ -37,8 +37,14 @@ public class LoginController {
         return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
 
+
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User newUser) {
+        if(userRepository.existsByUsername(newUser.getUsername())) {
+            // If the username already exists, return a conflict error
+            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+        }
+        
         newUser.setRole("USER");
         userRepository.save(newUser);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);

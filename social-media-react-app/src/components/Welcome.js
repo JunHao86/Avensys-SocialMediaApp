@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import NavBar from './NavBar'; 
 
 function Welcome() {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const username = localStorage.getItem('username');
@@ -11,10 +15,12 @@ function Welcome() {
     axios
       .get(`http://localhost:8080/user/${username}`)
       .then(response => {
-        setUser(response.data); 
+        setUser(response.data);
+        localStorage.setItem('user', JSON.stringify(response.data)); // Save user data
       })
       .catch(error => {
         console.error(`Error fetching user data: ${error}`);
+        navigate('/login');
       });
 
     axios
@@ -25,7 +31,7 @@ function Welcome() {
       .catch(error => {
         console.error(`Error fetching posts: ${error}`);
       });
-  }, []);
+  }, [navigate]);
 
   if (!user || !posts) {
     return <p>Error, no permission...</p>;
@@ -33,11 +39,7 @@ function Welcome() {
 
   return (
     <div>
-      <h1>Welcome, {user.username}!</h1>
-      <h3>Role: {user.role}</h3>
-      <h3>Email: {user.email}</h3>
-      
-
+      <NavBar /> 
       <h2>Your Posts:</h2>
       <ul>
         {posts.map((post, index) => (
