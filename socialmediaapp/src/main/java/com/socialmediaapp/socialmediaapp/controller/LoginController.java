@@ -23,7 +23,7 @@ public class LoginController {
 
     @Autowired
     UserService userService;
-   
+    
     //=============================================================
     //Functions in login/register
     
@@ -37,14 +37,10 @@ public class LoginController {
         return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
 
+
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User newUser) {
-        if(userService.verifyUsername(newUser)) {
-        	//If the username already exists, return a conflict error
-        	return new ResponseEntity<>(null,HttpStatus.CONFLICT);
-        }
-    	newUser.setRole("USER");
-        userService.createUser(newUser);
+
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
     
