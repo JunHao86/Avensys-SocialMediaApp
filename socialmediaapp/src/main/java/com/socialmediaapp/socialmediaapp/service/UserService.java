@@ -27,30 +27,30 @@ public class UserService {
         return user;
     }
     
-    public List<Post> getUserPosts(String username) {
-        User user = userRepository.findByUsername(username);
-        return postRepository.findAllByUser(user);
-    }
-    
     //=============================================================
     //User Service
     
-    //Create - used in @PostMapping("/register")
+    //Create - used in @PostMapping("/register") (tested)
     public void createUser(User newUser){
     	userRepository.save(newUser);
     }
     
-    //Read - used in ?? 
+    //Read singular user - used in @GetMapping("/user/{username}") (tested)
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+    
+    //Read list of user - used in ?? (not tested)
+    public List<User> getAllUsers(){
+    	return (List<User>) userRepository.findAll();
+    }
 
-    //Update - used by Admin in @PostMapping("??")
+    //Update - used by Admin in @PostMapping("??") (not tested)
     public void updateUser(User user) {
     	userRepository.save(user);
     }
     
-    //Delete - used by Admin in @PostMapping("??")
+    //Delete - used by Admin in @PostMapping("??") (not tested)
     public void deleteUser(int user_id) {
     	userRepository.deleteById(user_id);
     }
@@ -64,9 +64,20 @@ public class UserService {
     	postRepository.save(newPost);    	
     }
 
-    //Read - used in ??
+    //Read singular post - used in ?? (not tested)
 	public Optional<Post> getPostByPostId(int post_id) {
 		return postRepository.findById(post_id);
+	}
+	
+	//Read list of post by userID - used by User/Admin (tested)
+	public List<Post> getAllPostByUser(String username){
+        User user = userRepository.findByUsername(username);
+        return postRepository.findAllByUser(user);
+	}
+	
+	//Read list of all posts - used by Admin (not tested)
+	public List<Post> getAllPosts(){
+		return (List<Post>) postRepository.findAll();
 	}
     
 	//Update - used in @GetMapping("/userposts/{username}/update/{post_id}/") (not tested)
@@ -75,8 +86,8 @@ public class UserService {
 	}
     
 	//Delete - used in @GetMapping("/userposts/{username}/delete/{post_id}") (tested)
-	public void deletePostByPostId(int id) {
-		postRepository.deleteById(id);
+	public void deletePostByPostId(int post_id) {
+		postRepository.deleteById(post_id);
 	}
 
 }
