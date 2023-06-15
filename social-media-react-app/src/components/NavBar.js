@@ -27,8 +27,8 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">
           <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">All Posts</Nav.Link>
+            <Nav.Link href="/Explore">Explore</Nav.Link>
+            <Nav.Link href="/Profile">Profile</Nav.Link>
             {user.role.toLowerCase() === 'admin' && <Nav.Link href="/Adminpanel">Admin Controls</Nav.Link>}
           </Nav>
           <Dropdown style={{ paddingRight: '30px' }}>

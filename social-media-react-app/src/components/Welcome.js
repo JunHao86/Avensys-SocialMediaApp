@@ -51,12 +51,15 @@ function Welcome() {
           {posts.map((post, index) => (
             <Col key={index} xs={12} md={4} lg={3} className="mb-4">
               <Card>
-                {post.mediaUrl && (
-                  <Card.Img variant="top" src={post.mediaUrl} alt="Post" />
-                )}
+                <div>
+                  {post.mediaUrl && (
+                    <Card.Img variant="top" src={post.mediaUrl} alt="mediaUrl not found" />
+                  )}
+                </div>
                 <Card.Body>
-                  <Card.Text>{post.content}</Card.Text>
-                  <Card.Text>{post.caption}</Card.Text>
+                  <h5><Card.Text>{post.caption}</Card.Text></h5>
+                  <p><Card.Text>{post.content}</Card.Text></p>
+                  
                 </Card.Body>
               </Card>
             </Col>
