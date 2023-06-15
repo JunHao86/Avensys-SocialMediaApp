@@ -58,11 +58,11 @@ function UpdateMediaPost() {
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="content">
                 <Form.Label>Content</Form.Label>
-                <Form.Control type="text" required name="content" value={formData.content} onChange={handleChange } />
+                <Form.Control type="text"  name="content" value={formData.content} onChange={handleChange } />
               </Form.Group>
               <Form.Group controlId="media_url">
                 <Form.Label>media_URL</Form.Label>
-                <Form.Control type="text" required name="mediaUrl" value={formData.mediaUrl} onChange={handleChange} />
+                <Form.Control type="text"  name="mediaUrl" value={formData.mediaUrl} onChange={handleChange} />
               </Form.Group>
               <Form.Group controlId="caption">
                 <Form.Label>Caption</Form.Label>
@@ -70,7 +70,7 @@ function UpdateMediaPost() {
               </Form.Group>
               <Form.Group controlId="createdAt">
                 <Form.Label>Date Created</Form.Label>
-                <Form.Control type="text" required name="createdAt" value={formData.createdAt} onChange={handleChange} />
+                <Form.Control type="text" required name="createdAt" value={formData.createdAt} onChange={handleChange} disabled />
               </Form.Group>
              {/*  {error && <p className="text-danger">{error}</p>} */}
               <Button type="submit" variant="primary">Update</Button>

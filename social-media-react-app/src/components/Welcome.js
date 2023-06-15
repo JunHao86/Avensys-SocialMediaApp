@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import NavBar from './NavBar';
 
 function Welcome() {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState(null);
-  
-  const navigate = useNavigate(); 
-  function navAdmin()
-  {
-      navigate("/adminpanel")
-  }
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const username = localStorage.getItem('username');
@@ -18,11 +16,12 @@ function Welcome() {
     axios
       .get(`http://localhost:8080/user/${username}`)
       .then(response => {
-        setUser(response.data); 
-       
+        setUser(response.data);
+        localStorage.setItem('user', JSON.stringify(response.data)); // Save user data
       })
       .catch(error => {
         console.error(`Error fetching user data: ${error}`);
+        navigate('/login');
       });
 
     axios
@@ -33,29 +32,40 @@ function Welcome() {
       .catch(error => {
         console.error(`Error fetching posts: ${error}`);
       });
-  }, []);
+  }, [navigate]);
 
   if (!user || !posts) {
-    return <p>Error, no permission...</p>;
+    console.log('Loading user and posts...');
+    return <p>Loading...</p>;
   }
 
-  const isAdmin = (user.role === 'Admin') ? (
-    <button onClick={navAdmin}>AdminPanel</button>
-  ) : null;
+  console.log('User:', user);
+  console.log('Posts:', posts);
 
   return (
     <div>
-      <h1>Welcome, {user.username}!</h1>
-      <h3>Role: {user.role}</h3>
-      <h3>Email: {user.email}</h3>
-      {isAdmin}
-
-      <h2>Your Posts:</h2>
-      <ul>
-        {posts.map((post, index) => (
-          <li key={index}>{post.content}</li>
-        ))}
-      </ul>
+      <NavBar />
+      <Container>
+        <h2 className="mt-4">Welcome, {user.username}!</h2>
+        <Row className="mt-4">
+          {posts.map((post, index) => (
+            <Col key={index} xs={12} md={4} lg={3} className="mb-4">
+              <Card>
+                <div>
+                  {post.mediaUrl && (
+                    <Card.Img variant="top" src={post.mediaUrl} alt="mediaUrl not found" />
+                  )}
+                </div>
+                <Card.Body>
+                  <h5><Card.Text>{post.caption}</Card.Text></h5>
+                  <p><Card.Text>{post.content}</Card.Text></p>
+                  
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
     </div>
   );
 }

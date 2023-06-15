@@ -60,6 +60,8 @@ public class AdminController {
 		adminservice.updateUserByID(user.getUser_id(),user);
 		return new ResponseEntity<>("Update Complete",HttpStatus.OK);
 	}
+	
+	
 
 	@GetMapping("/admin/allposts")
     public ResponseEntity<List<Post>> getAllPosts()

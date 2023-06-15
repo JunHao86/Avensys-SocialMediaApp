@@ -1,6 +1,7 @@
 package com.socialmediaapp.socialmediaapp.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,32 @@ public class UserService {
         return postRepository.findAllByUser(user);
     }
     
+    public void createPost(Post post)
+    {
+    	postRepository.save(post);
+    }
     
+    public void deletePost(Post post)
+    {
+    	postRepository.delete(post);
+    }
+    
+    public void updatePostByID(int id, Post post)
+	{
+		Optional<Post> tempPost = postRepository.findById(id);
+		if(tempPost!=null)
+		{
+			Post updatePost = tempPost.orElse(new Post());
+			updatePost.setCaption(post.getCaption());
+			//System.out.println(post.getCaption());
+			updatePost.setContent(post.getContent());
+			updatePost.setMediaUrl(post.getMediaUrl());
+			updatePost.setUser(post.getUser());	
+			
+			postRepository.save(updatePost);			
+		}
+		
+	}
     
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);

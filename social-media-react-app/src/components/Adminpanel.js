@@ -4,6 +4,7 @@ import{addPost_admin,addUsers_admin,socialAppStore} from "./redux.js";
 import { useDispatch} from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import NavBar from './NavBar.js';
 
 
 function Adminpanel() {
@@ -23,7 +24,7 @@ function Adminpanel() {
    
 
     useEffect(()=>{
-        axios.get("http://localhost:8080/admin/allposts")
+        axios.get("http://localhost:8080/admin/posts")
         .then(response => {
             console.log(response.data)           
             setAllPost(response.data)          
@@ -32,7 +33,7 @@ function Adminpanel() {
             console.error(`Error fetching user data: ${error}`);
           });
 
-        axios.get("http://localhost:8080/admin/allusers")
+        axios.get("http://localhost:8080/admin/users")
           .then(response => {            
               setAllUser(response.data)          
           })
@@ -94,6 +95,7 @@ function Adminpanel() {
     }
   return (
     <div>
+        <NavBar/>
          <div className="container">
             <div className="row">
                 <div className="row-6">

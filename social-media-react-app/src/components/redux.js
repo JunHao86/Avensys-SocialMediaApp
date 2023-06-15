@@ -2,6 +2,43 @@
 
 const { createStore, combineReducers } = require("redux")
 
+const userData =
+{
+    user:{}
+}
+
+//Action
+export function storeUser(info){
+    return{
+        type:"STORE_USER_ONLY", 
+        payload: info
+    }
+    
+}
+
+//REDUCER
+const UserReducer = (state = userData, action)=>
+{
+    if(action.type ==="STORE_USER_ONLY")
+    {
+        console.log('Handling STORE_USER_ONLY action:', action);
+        // if the condition is true, we need to add task that is assocaited
+        //  with the payload key to redux store
+        
+        
+        return{
+            //update task key
+                      
+           post:{...action.payload}
+        }
+
+    }
+    else
+    {
+        return state
+    }
+}
+
 const postDataAdmin =
 {
     post:{}
@@ -77,7 +114,8 @@ const User_adminReducer = (state = userDataAdmin, action)=>
 // COMBINED REDUCER
 const rootReducer = combineReducers({
     Post_adminReducer:Post_adminReducer,
-    User_adminReducer:User_adminReducer
+    User_adminReducer:User_adminReducer,
+    UserReducer:UserReducer
 })
 
 //Redux Store

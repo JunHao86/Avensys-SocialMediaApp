@@ -70,6 +70,37 @@ public class LoginController {
     	}
     	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
+    
+    
+    @PostMapping("/user/create")
+	public ResponseEntity<String> createPost(@RequestBody Post post){
+		
+		userService.createPost(post);
+		return new ResponseEntity<>("Insert Complete",HttpStatus.OK);
+	}
+    
+    @PostMapping("/user/delete")
+	public ResponseEntity<String> deletePost(@RequestBody Post post){
+		
+		userService.deletePost(post);
+		return new ResponseEntity<>("Delete Complete",HttpStatus.OK);
+	}
+    
+    @PostMapping("/user/update")
+	public ResponseEntity<String> updatePost(@RequestBody Post post){
+		
+		userService.deletePost(post);
+		return new ResponseEntity<>("Delete Complete",HttpStatus.OK);
+	}
+    
+    //Create a post with postID, tied to username (not tested)
+    @PostMapping("/userposts/{username}/post")
+    public ResponseEntity<Post> createUserPostByUsername(@RequestBody Post newPost, @PathVariable String username){
+        User user = userService.getUserByUsername(username);
+        newPost.setUser(user);
+        userService.createPost(newPost);
+        return new ResponseEntity<>(newPost, HttpStatus.CREATED);
+    }
 
 }
 
