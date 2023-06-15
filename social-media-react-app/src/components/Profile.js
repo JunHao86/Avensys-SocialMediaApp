@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import NavBar from './NavBar';
+import CreateProfilePost from './CreateProfilePost';
+import UpdateMediaPost from './UpdateMediaPost';
+import UpdateProfilePost from './UpdateProfilePost';
 
 function Profile() {
 
@@ -12,9 +15,14 @@ function Profile() {
         <div>
         <NavBar />
         <Container>
-            <Row className="mt-4">
-
+            <Row>
+            <CreateProfilePost/>
+            <Col md={8}>
+            <UpdateProfilePost/>
+        </Col>
+                
             </Row>
+           <updateProfilepost/>
         </Container>
         </div>
     )
