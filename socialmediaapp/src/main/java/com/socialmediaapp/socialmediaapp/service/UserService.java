@@ -30,7 +30,7 @@ public class UserService {
     
     
     //=============================================================
-    //User Service
+    //User Service (done)
     
     
     //Validation - used in @PostMapping("/register") (tested)
@@ -53,51 +53,9 @@ public class UserService {
     	return (List<User>) userRepository.findAll();
     }
 
-    //Update - used by Admin in @PostMapping("??") (not tested)
-    //!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void updateUser1(User user) {
+    //Update - used by Admin  (tested)
+    public void updateUser(User user) {
     	userRepository.save(user);
-    }
-    
-    public void updateUser(int user_id, User user) {
-		Optional<User> tempUser = userRepository.findById(user_id);
-		if(tempUser!=null)
-		{
-			User updateUser = tempUser.orElse(new User());
-			updateUser.setUser_id(user.getUser_id());
-			updateUser.setUsername(user.getUsername());
-			updateUser.setPassword(user.getPassword());
-			updateUser.setEmail(user.getEmail());
-			updateUser.setRole(user.getRole());	
-			
-			userRepository.save(updateUser);			
-		}
-    }
-     
-    public void updateUserByID(int user_id, User user) {
-        Optional<User> tempUser = userRepository.findById(user_id);
-        if (tempUser.isPresent()) {
-            User updateUser = tempUser.get();
-            updateUser.setUsername(user.getUsername());
-            updateUser.setPassword(user.getPassword());
-            updateUser.setEmail(user.getEmail());
-            updateUser.setRole(user.getRole());
-
-            userRepository.save(updateUser);
-        }
-    }
-    
-    public void updatePostByID(int id, Post post) {
-        Optional<Post> tempPost = postRepository.findById(id);
-        if (tempPost.isPresent()) {
-            Post updatePost = tempPost.get();
-            updatePost.setCaption(post.getCaption());
-            updatePost.setContent(post.getContent());
-            updatePost.setMediaUrl(post.getMediaUrl());
-            updatePost.setUser(post.getUser());
-
-            postRepository.save(updatePost);
-        }
     }
     
     //Delete - used by Admin (tested)
@@ -145,6 +103,20 @@ public class UserService {
 		postRepository.save(post);
 	}
     
+	//Update - used in @GetMapping("/userposts/{username}/update/{post_id}/") (tested)
+    public void updatePostByID(int id, Post post) {
+        Optional<Post> tempPost = postRepository.findById(id);
+        if (tempPost.isPresent()) {
+            Post updatePost = tempPost.get();
+            updatePost.setCaption(post.getCaption());
+            updatePost.setContent(post.getContent());
+            updatePost.setMediaUrl(post.getMediaUrl());
+            updatePost.setUser(post.getUser());
+
+            postRepository.save(updatePost);
+        }
+    }
+	
 	//Delete - used in @GetMapping("/userposts/{username}/delete/{post_id}") (tested)
 	public void deletePostByPostId(int post_id) {
 		postRepository.deleteById(post_id);
