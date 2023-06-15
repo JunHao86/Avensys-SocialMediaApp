@@ -4,6 +4,9 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Welcome from './components/Welcome';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Adminpanel from './components/Adminpanel';
+import UpdateMediaPost from './components/UpdateMediaPost';
+import UpdateUser from './components/UpdateUser';
 
 function App() {
   return (
@@ -13,6 +16,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/welcome" element={<Welcome />} />
+        <Route path="/Adminpanel" element={<Adminpanel/>}/>
+        <Route exact path="/updatemediapost" element={<UpdateMediaPost />} />
+        <Route exact path="/updateuser" element={<UpdateUser />} />
       </Routes>
     </div>
   );

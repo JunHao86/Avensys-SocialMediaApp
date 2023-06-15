@@ -62,7 +62,73 @@ public class LoginController {
     
     //=============================================================
     //Functions in Admin Page 
+    //Check the GetMapping/PostMapping if correct
     
+    //Get List of Posts (not tested)
+	@GetMapping("/admin/posts")
+    public ResponseEntity<List<Post>> getAllPosts()
+    {
+		return new ResponseEntity<>(userService.getAllPosts(),HttpStatus.OK);
+    }
+
+	//Get List of Users (not tested)
+	@GetMapping("/admin/users")
+	public ResponseEntity<List<User>> getAllUsers()
+	{
+		return new ResponseEntity<>(userService.getAllUsers(),HttpStatus.OK);
+	}
+   
+//	//Update a post by its postID (not tested)
+//	@PostMapping("/admin/posts/{post_id}/update")
+//	public ResponseEntity<String> updatePostFromPosts(@RequestBody Post post,@PathVariable int post_id){
+//		Optional<Post> post2 = userService.getPostByPostId(post.getPostId());
+//		userService.updatePostByPostId(post2);
+//		return new ResponseEntity<>("Update Complete",HttpStatus.OK);
+//	}
+//	//Update a user by its username (not tested)
+//	@PostMapping("/admin/users/{username}/update")
+//	public ResponseEntity<String> updateUserFromUsers(@RequestBody User user,@PathVariable String username){
+//		User user2 = userService.getUserByUsername(user.getUsername());
+//		userService.updateUser(user2);
+//		return new ResponseEntity<>("Update Complete",HttpStatus.OK);
+//	}
+
+
+	
+	@PostMapping("/admin/update/post")
+	public ResponseEntity<String> updatePost(@RequestBody Post post){
+//		Optional<Post> post2 = userService.getPostByPostId(post.getPostId());
+//		userService.updatePostByPostId(post);
+		userService.updatePostByID(post.getPostId(),post);
+		
+		return new ResponseEntity<>("Update Complete",HttpStatus.OK);
+	}
+	
+	//Delete a post in Admin Dashboard (tested)
+	@PostMapping("/admin/delete/post")
+	public ResponseEntity<String> deletePostFromPosts(@RequestBody Post post){
+		userService.deletePostByPostId(post.getPostId());
+		return new ResponseEntity<>("Delete Complete",HttpStatus.OK);
+	}
+
+//	@PostMapping("/admin/update/user")
+//	public ResponseEntity<String> updateUser(@RequestBody User user){
+//		userService.updateUser(user.getUser_id(),user);
+//		return new ResponseEntity<>("Update Complete",HttpStatus.OK);
+//	}
+
+	@PostMapping("/admin/update/user")
+	public ResponseEntity<String> updateUser(@RequestBody User user) {
+	    userService.updateUser(user.getUser_id(), user);
+	    return new ResponseEntity<>("Update Complete", HttpStatus.OK);
+	}
+	
+	//Delete a user in Admin Dashboard (tested)
+	@PostMapping("/admin/delete/user")
+	public ResponseEntity<String> deleteUserFromUsers(@RequestBody User user) {
+	    userService.deleteUser(user.getUser_id());
+	    return new ResponseEntity<>("Delete User Complete", HttpStatus.OK);
+	}
     
     //=============================================================
     //Functions in userposts/username (profile)

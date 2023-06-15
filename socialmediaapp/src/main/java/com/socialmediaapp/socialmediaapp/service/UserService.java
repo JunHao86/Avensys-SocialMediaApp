@@ -48,31 +48,82 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
     
-    //Read list of user - used in ?? (not tested)
+    //Read list of user - used by Admin (tested)
     public List<User> getAllUsers(){
     	return (List<User>) userRepository.findAll();
     }
 
     //Update - used by Admin in @PostMapping("??") (not tested)
-    public void updateUser(User user) {
+    //!!!!!!!!!!!!!!!!!!!!!!!!!
+    public void updateUser1(User user) {
     	userRepository.save(user);
     }
     
-    //Delete - used by Admin in @PostMapping("??") (not tested)
-    public void deleteUser(int user_id) {
-    	userRepository.deleteById(user_id);
+    public void updateUser(int user_id, User user) {
+		Optional<User> tempUser = userRepository.findById(user_id);
+		if(tempUser!=null)
+		{
+			User updateUser = tempUser.orElse(new User());
+			updateUser.setUser_id(user.getUser_id());
+			updateUser.setUsername(user.getUsername());
+			updateUser.setPassword(user.getPassword());
+			updateUser.setEmail(user.getEmail());
+			updateUser.setRole(user.getRole());	
+			
+			userRepository.save(updateUser);			
+		}
+    }
+     
+    public void updateUserByID(int user_id, User user) {
+        Optional<User> tempUser = userRepository.findById(user_id);
+        if (tempUser.isPresent()) {
+            User updateUser = tempUser.get();
+            updateUser.setUsername(user.getUsername());
+            updateUser.setPassword(user.getPassword());
+            updateUser.setEmail(user.getEmail());
+            updateUser.setRole(user.getRole());
+
+            userRepository.save(updateUser);
+        }
     }
     
+    public void updatePostByID(int id, Post post) {
+        Optional<Post> tempPost = postRepository.findById(id);
+        if (tempPost.isPresent()) {
+            Post updatePost = tempPost.get();
+            updatePost.setCaption(post.getCaption());
+            updatePost.setContent(post.getContent());
+            updatePost.setMediaUrl(post.getMediaUrl());
+            updatePost.setUser(post.getUser());
+
+            postRepository.save(updatePost);
+        }
+    }
+    
+    //Delete - used by Admin (tested)
+    public void deleteUser(int user_id) {
+        User user = userRepository.findById(user_id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+
+        List<Post> userPosts = postRepository.findAllByUser(user);
+        for (Post post : userPosts) {
+            postRepository.delete(post);
+        }
+
+        userRepository.delete(user);
+    }
     
    //=============================================================
    //Post Service (CRUD)
     
     //Create - used in @PostMapping("/userposts/{username}/post/") (not tested)
+    //!!!!!!!!!!!!!!!!!!!!!!!!!
     public void createPost(Post newPost) {
     	postRepository.save(newPost);    	
     }
 
     //Read singular post - used in ?? (not tested)
+    //!!!!!!!!!!!!!!!!!!!!!!!!!
 	public Optional<Post> getPostByPostId(int post_id) {
 		return postRepository.findById(post_id);
 	}
@@ -83,12 +134,13 @@ public class UserService {
         return postRepository.findAllByUser(user);
 	}
 	
-	//Read list of all posts - used by Admin (not tested)
+	//Read list of all posts - used by Admin (tested)
 	public List<Post> getAllPosts(){
 		return (List<Post>) postRepository.findAll();
 	}
     
 	//Update - used in @GetMapping("/userposts/{username}/update/{post_id}/") (not tested)
+    //!!!!!!!!!!!!!!!!!!!!!!!!!
 	public void updatePostByPostId(Optional<Post> post) {
 		postRepository.save(post);
 	}
