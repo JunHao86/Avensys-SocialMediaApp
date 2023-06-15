@@ -60,8 +60,7 @@ function CreateProfilePost() {
            console.error(`Error fetching user data: ${error}`);
          });
     console.log("updatedObject: ",formData )
-    //navigate("/adminpanel")
-    //window.location.pathname = "/Profile"
+    window.location.pathname = "/Profile"
       }
   return (
     <Container>
