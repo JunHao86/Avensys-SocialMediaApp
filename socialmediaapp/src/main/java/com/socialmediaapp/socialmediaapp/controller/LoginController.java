@@ -122,10 +122,12 @@ public class LoginController {
     //Create a post with postID, tied to username (not tested)
     @PostMapping("/userposts/{username}/post/")
     public ResponseEntity<Post> createUserPostByUsername(@RequestBody Post newPost, @PathVariable String username){
+    	User user = userService.getUserByUsername(username);
+    	newPost.setUser(user);
     	userService.createPost(newPost);
     	return new ResponseEntity<>(newPost, HttpStatus.CREATED);
     }
-        
+            
     //Update a post by its postID, tied to username (not tested)
     @GetMapping("/userposts/{username}/update/{post_id}/")
     public ResponseEntity<List<Post>> updateUserPostByUsername(@PathVariable String username, @PathVariable int post_id) {
