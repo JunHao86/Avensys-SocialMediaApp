@@ -3,21 +3,104 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import NavBar from './NavBar';
+import{addPost_User,socialAppStore} from "./redux.js";
+import { useDispatch} from "react-redux";
 
 function Profile() {
-
+    const [user, setUser] = useState(null);
+    const [posts, setPosts] = useState(null);
+    const ud = useDispatch()
+  
     const navigate = useNavigate();
-    
+  
+    useEffect(() => {
+      const username = localStorage.getItem('username');
+  
+      axios
+        .get(`http://localhost:8080/user/${username}`)
+        .then(response => {
+          setUser(response.data);
+          localStorage.setItem('user', JSON.stringify(response.data)); // Save user data
+        })
+        .catch(error => {
+          console.error(`Error fetching user data: ${error}`);
+          navigate('/login');
+        });
+  
+      axios
+        .get(`http://localhost:8080/userposts/${username}`)
+        .then(response => {
+          setPosts(response.data);
+        })
+        .catch(error => {
+          console.error(`Error fetching posts: ${error}`);
+        });
+    }, [navigate]);
+  
+    if (!user || !posts) {
+      console.log('Loading user and posts...');
+      return <p>Loading...</p>;
+    }
+  
+    console.log('User:', user);
+    console.log('Posts:', posts);
+  
+    function UpdatePost(post)
+    {
+        console.log(post)
+        
+        ud(addPost_User(post))
+        console.log("get socialAppStore.getState()",socialAppStore.getState())
+        navigate("/updateprofilepost")
+    }
+
+    function DeletePost(post)
+    {
+        console.log(post)
+        
+        axios.post(`http://localhost:8080/userposts/${user.username}/delete/${post.postId}`,
+           post
+          )
+          .then(response => { 
+            console.log(response.data)           
+            window.location.pathname = "/profile"
+          })
+          .catch(error => {
+              console.error(`Error fetching user data: ${error}`);
+            });
+    }
+
+
     return (
-        <div>
+      <div>
         <NavBar />
         <Container>
+            <h2 className="mt-4">Welcome, {user.username}!</h2>
             <Row className="mt-4">
-
+                {posts.map((post, index) => (
+                <Col key={index} xs={12} md={4} lg={3} className="mb-4">
+                    <Card>
+                        <div class="card-header">
+                            <button onClick={() =>UpdatePost(post)} className='btn btn-success'>Update</button>
+                            <button onClick={() =>DeletePost(post)} className='btn btn-danger'>Delete</button>
+                        </div>
+                        <div>
+                        {post.mediaUrl && (
+                        <Card.Img variant="top" src={post.mediaUrl} alt="mediaUrl not found" />
+                        )}
+                        </div>
+                        <Card.Body>
+                            <h5><Card.Text>{post.caption}</Card.Text></h5>
+                            <p><Card.Text>{post.content}</Card.Text></p>
+                            
+                        </Card.Body>
+                    </Card>
+                </Col>
+                ))}
             </Row>
         </Container>
-        </div>
-    )
-}
+      </div>
+    );
+  }
 
 export default Profile

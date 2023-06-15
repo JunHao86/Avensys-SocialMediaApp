@@ -128,24 +128,29 @@ public class LoginController {
     	return new ResponseEntity<>(newPost, HttpStatus.CREATED);
     }
             
-    //Update a post by its postID, tied to username (not tested)
-    @GetMapping("/userposts/{username}/update/{post_id}/")
-    public ResponseEntity<List<Post>> updateUserPostByUsername(@PathVariable String username, @PathVariable int post_id) {
+    //Update a post by its postID, tied to username (tested)
+    @PostMapping("/userposts/{username}/update/{post_id}")
+    public ResponseEntity<List<Post>> updateUserPostByUsername(@PathVariable String username, @PathVariable int post_id, @RequestBody Post updatedPost) {
         List<Post> posts = userService.getAllPostByUser(username);
-        if(posts != null) {      	
-			Optional<Post> post = userService.getPostByPostId(post_id);
-			if(post!=null){
-				//update post using POST
-        		userService.updatePostByPostId(post);
-        		return new ResponseEntity<>(posts, HttpStatus.OK);
-        	}
-        	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        if (posts != null && !posts.isEmpty()) {
+            Optional<Post> optionalPost = userService.getPostByPostId(post_id);
+            if (optionalPost.isPresent()) {
+                Post existingPost = optionalPost.get();
+                existingPost.setContent(updatedPost.getContent());
+                existingPost.setMediaUrl(updatedPost.getMediaUrl());
+                existingPost.setCaption(updatedPost.getCaption());
+                existingPost.setCreatedAt(updatedPost.getCreatedAt());
+
+                userService.updatePostByID(post_id, existingPost);
+
+                return new ResponseEntity<>(posts, HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
     
     //Delete a post by its postID, tied to username (tested)
-    @GetMapping("/userposts/{username}/delete/{post_id}")
+    @PostMapping("/userposts/{username}/delete/{post_id}")
     public ResponseEntity<List<Post>> deleteUserPostByUsername(@PathVariable String username, @PathVariable int post_id) {
         List<Post> posts = userService.getAllPostByUser(username);
         if(posts != null) {
