@@ -20,7 +20,7 @@ function UpdateUser() {
             ...formData,
           [event.target.name]: event.target.value,
         });
-      };
+      }; 
       
     
       const handleSubmit = (event) => {
@@ -62,11 +62,11 @@ function UpdateUser() {
               </Form.Group>
               <Form.Group controlId="password">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="text" required name="password" value={formData.password} onChange={handleChange} />
+                <Form.Control type="password" required name="password" value={formData.password} onChange={handleChange} />
               </Form.Group>
               <Form.Group controlId="email">
                 <Form.Label>Email Address</Form.Label>
-                <Form.Control type="text" required name="email" value={formData.email} onChange={handleChange} />
+                <Form.Control type="email" required name="email" value={formData.email} onChange={handleChange} />
               </Form.Group>
               <Form.Group controlId="role">
                 <Form.Label>Role</Form.Label>

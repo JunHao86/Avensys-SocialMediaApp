@@ -56,6 +56,7 @@ function Welcome() {
                 )}
                 <Card.Body>
                   <Card.Text>{post.content}</Card.Text>
+                  <Card.Text>{post.caption}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
