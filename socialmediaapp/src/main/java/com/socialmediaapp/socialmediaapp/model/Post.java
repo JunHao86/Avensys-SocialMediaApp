@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import com.socialmediaapp.socialmediaapp.model.User;
 
 @Entity
 @Table(name = "Post")
@@ -35,6 +36,17 @@ public class Post {
 
  @Column(name = "created_at", nullable = false)
  private LocalDateTime createdAt;
+ 
+ public Post() {}
+ public Post(User user, String content, String mediaUrl, String caption, LocalDateTime createdAt) {
+		super();		
+		this.user = user;
+		this.content = content;
+		this.mediaUrl = mediaUrl;
+		this.caption = caption;
+		this.createdAt = createdAt;
+}
+ 
 
 public int getPostId() {
 	return postId;
@@ -60,6 +72,9 @@ public void setContent(String content) {
 	this.content = content;
 }
 
+
+
+
 public String getMediaUrl() {
 	return mediaUrl;
 }
@@ -76,6 +91,10 @@ public void setCaption(String caption) {
 	this.caption = caption;
 }
 
+public void postRepository(String caption) {
+	this.caption = caption;
+}
+
 public LocalDateTime getCreatedAt() {
 	return createdAt;
 }
@@ -83,6 +102,8 @@ public LocalDateTime getCreatedAt() {
 public void setCreatedAt(LocalDateTime createdAt) {
 	this.createdAt = createdAt;
 }
+
+
 
  // Constructors, getters, and setters omitted for brevity.
  

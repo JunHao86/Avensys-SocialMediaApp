@@ -3,9 +3,11 @@ import axios from 'axios';
 import { Button, Card, Container, Form, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'; 
 
+
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const[user, setUser] = useState({})
   const [error, setError] = useState('');
 
   const navigate = useNavigate(); 
@@ -20,7 +22,10 @@ function Login() {
     .then(response => {
       console.log(response.data);
       localStorage.setItem('username', username); // Save username
+      setUser(response.data)      
       navigate('/welcome');
+     
+      
     })
     .catch(error => {
       console.error(`Error: ${error}`);

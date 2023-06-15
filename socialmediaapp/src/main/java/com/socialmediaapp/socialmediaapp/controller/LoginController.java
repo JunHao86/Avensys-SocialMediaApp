@@ -61,6 +61,15 @@ public class LoginController {
     	}
     	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
+    
+    @GetMapping("/userrole/{username}")
+    public ResponseEntity<String> getAdminUserByUsername(@PathVariable String username) {
+    User user = userRepository.findByUsername(username);
+    if(user != null) {
+        return new ResponseEntity<>(user.getRole(), HttpStatus.OK);
+    	}
+    	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
 
 }
 

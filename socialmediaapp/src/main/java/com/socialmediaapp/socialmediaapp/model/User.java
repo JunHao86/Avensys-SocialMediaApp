@@ -15,7 +15,19 @@ public class User {
     private String password;
     private String email;
     private String role = "User";
+    
+    public User() {}
+	
+	public User( String username, String password, String email, String role) {
+		super();		
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.role = role;
+	}
     // getter and setter methods
+    
+    
 	public int getUser_id() {
 		return user_id;
 	}
@@ -46,6 +58,8 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	
     
     
 }
