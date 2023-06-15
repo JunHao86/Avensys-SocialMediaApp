@@ -10,6 +10,7 @@ import UpdateUser from './components/UpdateUser';
 import Explore from './components/Explore';
 import Profile from './components/Profile';
 import UpdateProfilePost from './components/UpdateProfilePost';
+import CreateProfilePost from './components/CreateProfilePost';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route exact path="/updateprofilepost" element={<UpdateProfilePost/>}/>
         <Route exact path="/updatemediapost" element={<UpdateMediaPost />} />
         <Route exact path="/updateuser" element={<UpdateUser />} />
+        <Route exact path="/createprofilepost" element={<CreateProfilePost/>} />
       </Routes>
     </div>
   );

@@ -56,10 +56,7 @@ public class LoginController {
     	}
     	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-    
-    //=============================================================
-    //Functions in welcome (feed of all posts, sorted in ??)
-    
+        
     //=============================================================
     //Functions in Admin Page (done)
     
@@ -119,8 +116,8 @@ public class LoginController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
     
-    //Create a post with postID, tied to username (not tested)
-    @PostMapping("/userposts/{username}/post/")
+    //Create a post with postID, tied to username (tested)
+    @PostMapping("/userposts/{username}/post")
     public ResponseEntity<Post> createUserPostByUsername(@RequestBody Post newPost, @PathVariable String username){
     	User user = userService.getUserByUsername(username);
     	newPost.setUser(user);

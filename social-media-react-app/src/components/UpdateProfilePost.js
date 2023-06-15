@@ -51,7 +51,7 @@ function UpdateProfilePost() {
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="content">
                 <Form.Label>Content</Form.Label>
-                <Form.Control type="text"  name="content" value={formData.content} onChange={handleChange } />
+                <Form.Control type="text" required name="content" value={formData.content} onChange={handleChange } />
               </Form.Group>
               <Form.Group controlId="media_url">
                 <Form.Label>media_URL</Form.Label>

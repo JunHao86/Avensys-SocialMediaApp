@@ -5,6 +5,11 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import NavBar from './NavBar';
 import{addPost_User,socialAppStore} from "./redux.js";
 import { useDispatch} from "react-redux";
+import CreateProfilePost from './CreateProfilePost';
+import UpdateMediaPost from './UpdateMediaPost';
+import UpdateProfilePost from './UpdateProfilePost';
+
+
 
 function Profile() {
     const [user, setUser] = useState(null);
@@ -75,11 +80,17 @@ function Profile() {
       <div>
         <NavBar />
         <Container>
-            <h2 className="mt-4">Welcome, {user.username}!</h2>
-            <Row className="mt-4">
+        <div class="container text-center">
+        <div class="row">
+          <div class="col-4">
+            <CreateProfilePost/>
+          </div>
+          <div class="col-8">
+          <h3>Your posts thus far</h3>
+          <Row >
                 {posts.map((post, index) => (
                 <Col key={index} xs={12} md={4} lg={3} className="mb-4">
-                    <Card>
+                    <Card >
                         <div class="card-header">
                             <button onClick={() =>UpdatePost(post)} className='btn btn-success'>Update</button>
                             <button onClick={() =>DeletePost(post)} className='btn btn-danger'>Delete</button>
@@ -98,6 +109,15 @@ function Profile() {
                 </Col>
                 ))}
             </Row>
+          </div>
+        </div>
+        </div>
+
+
+
+
+            
+            
         </Container>
       </div>
     );

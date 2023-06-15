@@ -74,14 +74,12 @@ public class UserService {
    //=============================================================
    //Post Service (CRUD)
     
-    //Create - used by user to create Post  (not tested)
-    //!!!!!!!!!!!!!!!!!!!!!!!!!
+    //Create - used by user to create Post  (tested)
     public void createPost(Post newPost) {
     	postRepository.save(newPost);    	
     }
 
-    //Read singular post - used by user to update Post (not tested)
-    //!!!!!!!!!!!!!!!!!!!!!!!!!
+    //Read singular post - used by user to update Post (tested)
 	public Optional<Post> getPostByPostId(int post_id) {
 		return postRepository.findById(post_id);
 	}
@@ -97,8 +95,7 @@ public class UserService {
 		return (List<Post>) postRepository.findAll();
 	}
     
-	//Update - used in @GetMapping("/userposts/{username}/update/{post_id}/") (not tested)
-    //!!!!!!!!!!!!!!!!!!!!!!!!!
+	//Update - used by ??
 	public void updatePostByPostId(Optional<Post> post) {
 		postRepository.save(post);
 	}
