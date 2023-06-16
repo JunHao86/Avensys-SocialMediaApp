@@ -6,9 +6,12 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Welcome from './components/Welcome';
 import Adminpanel from './components/Adminpanel';
+import Explore from './components/Explore';
+import Profile from './components/Profile';
+import UpdateProfilePost from './components/UpdateProfilePost';
+import CreateProfilePost from './components/CreateProfilePost';
 
 function App() {
-
   const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
 
@@ -25,23 +28,20 @@ function App() {
       });
   }, []);
 
-  useEffect(() => {
-    if (userRole && userRole.toLowerCase() !== 'admin') {
-      navigate('/welcome');
-    }
-  }, [navigate, userRole]);
-  
+  const isAdmin = userRole && userRole.toLowerCase() === 'admin';
+
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Welcome />}  />
+        <Route path="/" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/welcome" element={<Welcome />} />
-        {userRole && userRole.toLowerCase() === 'admin' ? (
-          <Route path="/Adminpanel" element={<Adminpanel />} />
-        ) : null}
-
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/profile" element={<Profile />} />
+        {isAdmin ? <Route path="/adminpanel" element={<Adminpanel />} /> : null}
+        <Route path="/updateprofilepost" element={<UpdateProfilePost />} />
+        <Route path="/createprofilepost" element={<CreateProfilePost />} />
       </Routes>
     </div>
   );
