@@ -14,6 +14,7 @@ import UpdateProfilePost from './UpdateProfilePost';
 function Profile() {
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState(null);
+    const [imageError, setImageError] = useState(false); //
     const ud = useDispatch()
   
     const navigate = useNavigate();
@@ -75,6 +76,11 @@ function Profile() {
             });
     }
 
+    
+    const handleImageError = () => {
+      setImageError(true);
+    };
+
 
     return (
       <div>
@@ -96,9 +102,11 @@ function Profile() {
                             <button onClick={() =>DeletePost(post)} className='btn btn-danger'>Delete</button>
                         </div>
                         <div>
-                        {post.mediaUrl && (
-                        <Card.Img variant="top" src={post.mediaUrl} alt="mediaUrl not found" />
-                        )}
+                        {post.mediaUrl && 
+                        (<Card.Img variant="top" src={post.mediaUrl} alt="Error occured" 
+                        onError={handleImageError}/>)}
+                        {/* {imageError ? (<a href={post.mediaUrl}>Click here to view</a>) : (<a></a>) } */}
+                        {/* <a href={post.mediaUrl}>Hyperlink</a> */}
                         </div>
                         <Card.Body>
                             <h5><Card.Text>{post.caption}</Card.Text></h5>
