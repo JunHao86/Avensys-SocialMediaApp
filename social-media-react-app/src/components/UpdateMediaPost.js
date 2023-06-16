@@ -36,6 +36,16 @@ function UpdateMediaPost({ post }) {
 
   return (
     <Form onSubmit={handleSubmit}>
+      <Form.Group controlId="caption">
+        <Form.Label>Caption</Form.Label>
+        <Form.Control
+          type="text"
+          required
+          name="caption"
+          value={formData.caption}
+          onChange={handleChange}
+        />
+      </Form.Group>
       <Form.Group controlId="content">
         <Form.Label>Content</Form.Label>
         <Form.Control
@@ -54,18 +64,10 @@ function UpdateMediaPost({ post }) {
           name="mediaUrl"
           value={formData.mediaUrl}
           onChange={handleChange}
+          disabled
         />
       </Form.Group>
-      <Form.Group controlId="caption">
-        <Form.Label>Caption</Form.Label>
-        <Form.Control
-          type="text"
-          required
-          name="caption"
-          value={formData.caption}
-          onChange={handleChange}
-        />
-      </Form.Group>
+
       <Form.Group controlId="createdAt" className='mb-3'>
         <Form.Label>Date Created</Form.Label>
         <Form.Control
@@ -74,6 +76,7 @@ function UpdateMediaPost({ post }) {
           name="createdAt"
           value={formData.createdAt}
           onChange={handleChange}
+          disabled
         />
       </Form.Group>
       <Button type="submit" variant="primary">

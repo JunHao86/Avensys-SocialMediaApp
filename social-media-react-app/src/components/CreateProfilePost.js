@@ -95,7 +95,7 @@ function CreateProfilePost() {
         <h3 className="create-profile-post-title">Write something new for your friends to see!</h3>
         <Form onSubmit={handleSubmit} className="create-profile-post-form">
           <Form.Group controlId="caption">
-            <Form.Label>Title</Form.Label>
+            <Form.Label>Caption</Form.Label>
             <Form.Control type="text" name="caption" required placeholder="Enter Title" onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="content">

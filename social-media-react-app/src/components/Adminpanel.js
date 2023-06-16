@@ -100,7 +100,6 @@ function Adminpanel() {
                 <th className='role'>Username</th>
                 <th>Caption</th>
                 <th>Content</th>
-                <th>Media Link</th>
                 <th >Creation Date</th>
                 <th className='role' colSpan='2' style={{ textAlign: 'center' }}>Action</th>
               </tr>
@@ -125,7 +124,6 @@ function Adminpanel() {
                       <td>{post.user.username}</td>
                       <td>{post.caption}</td>
                       <td>{post.content}</td>
-                      <td>{post.mediaUrl}</td>
                       <td>{post.createdAt}</td>
                       <td>
                         <button onClick={() => deletePost(post)} className='btn-danger admin-table button'>
