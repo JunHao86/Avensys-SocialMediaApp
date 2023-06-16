@@ -56,13 +56,52 @@ public class LoginController {
     	}
     	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-    
+        
     //=============================================================
-    //Functions in welcome (feed of all posts, sorted in ??)
+    //Functions in Admin Page (done)
     
-    //=============================================================
-    //Functions in Admin Page 
-    
+    //Get List of Posts (tested)
+	@GetMapping("/admin/posts")
+    public ResponseEntity<List<Post>> getAllPosts()
+    {
+		return new ResponseEntity<>(userService.getAllPosts(),HttpStatus.OK);
+    }
+
+	//Get List of Users (tested)
+	@GetMapping("/admin/users")
+	public ResponseEntity<List<User>> getAllUsers()
+	{
+		return new ResponseEntity<>(userService.getAllUsers(),HttpStatus.OK);
+	}
+
+	//Update a post in Admin Dashboard (tested)
+	@PostMapping("/admin/update/post")
+	public ResponseEntity<String> updatePost(@RequestBody Post post){
+		userService.updatePostByID(post.getPostId(),post);
+		
+		return new ResponseEntity<>("Update Complete",HttpStatus.OK);
+	}
+	
+	//Delete a post in Admin Dashboard (tested)
+	@PostMapping("/admin/delete/post")
+	public ResponseEntity<String> deletePostFromPosts(@RequestBody Post post){
+		userService.deletePostByPostId(post.getPostId());
+		return new ResponseEntity<>("Delete Complete",HttpStatus.OK);
+	}
+
+	//Update a user in Admin Dashboard (tested)
+	@PostMapping("/admin/update/user")
+	public ResponseEntity<String> updateUser1(@RequestBody User user) {
+	    userService.updateUser(user);
+	    return new ResponseEntity<>("Update Complete", HttpStatus.OK);
+	}
+	
+	//Delete a user in Admin Dashboard (tested)
+	@PostMapping("/admin/delete/user")
+	public ResponseEntity<String> deleteUserFromUsers(@RequestBody User user) {
+	    userService.deleteUser(user.getUser_id());
+	    return new ResponseEntity<>("Delete User Complete", HttpStatus.OK);
+	}
     
     //=============================================================
     //Functions in userposts/username (profile)
@@ -77,31 +116,38 @@ public class LoginController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
     
-    //Create a post with postID, tied to username (not tested)
-    @PostMapping("/userposts/{username}/post/")
+    //Create a post with postID, tied to username (tested)
+    @PostMapping("/userposts/{username}/post")
     public ResponseEntity<Post> createUserPostByUsername(@RequestBody Post newPost, @PathVariable String username){
+    	User user = userService.getUserByUsername(username);
+    	newPost.setUser(user);
     	userService.createPost(newPost);
     	return new ResponseEntity<>(newPost, HttpStatus.CREATED);
     }
-        
-    //Update a post by its postID, tied to username (not tested)
-    @GetMapping("/userposts/{username}/update/{post_id}/")
-    public ResponseEntity<List<Post>> updateUserPostByUsername(@PathVariable String username, @PathVariable int post_id) {
+            
+    //Update a post by its postID, tied to username (tested)
+    @PostMapping("/userposts/{username}/update/{post_id}")
+    public ResponseEntity<List<Post>> updateUserPostByUsername(@PathVariable String username, @PathVariable int post_id, @RequestBody Post updatedPost) {
         List<Post> posts = userService.getAllPostByUser(username);
-        if(posts != null) {      	
-			Optional<Post> post = userService.getPostByPostId(post_id);
-			if(post!=null){
-				//update post using POST
-        		userService.updatePostByPostId(post);
-        		return new ResponseEntity<>(posts, HttpStatus.OK);
-        	}
-        	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        if (posts != null && !posts.isEmpty()) {
+            Optional<Post> optionalPost = userService.getPostByPostId(post_id);
+            if (optionalPost.isPresent()) {
+                Post existingPost = optionalPost.get();
+                existingPost.setContent(updatedPost.getContent());
+                existingPost.setMediaUrl(updatedPost.getMediaUrl());
+                existingPost.setCaption(updatedPost.getCaption());
+                existingPost.setCreatedAt(updatedPost.getCreatedAt());
+
+                userService.updatePostByID(post_id, existingPost);
+
+                return new ResponseEntity<>(posts, HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
     
     //Delete a post by its postID, tied to username (tested)
-    @GetMapping("/userposts/{username}/delete/{post_id}")
+    @PostMapping("/userposts/{username}/delete/{post_id}")
     public ResponseEntity<List<Post>> deleteUserPostByUsername(@PathVariable String username, @PathVariable int post_id) {
         List<Post> posts = userService.getAllPostByUser(username);
         if(posts != null) {
