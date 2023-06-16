@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
 import NavBar from './NavBar';
 import { useDispatch } from 'react-redux';
 import { addPost_User, socialAppStore } from './redux';
 import CreateProfilePost from './CreateProfilePost';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import './Profile.css'; // Import custom CSS file
+import UpdateProfilePost from './UpdateProfilePost';
 
 function Profile() {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState(null);
   const [imageErrors, setImageErrors] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null); // Added selectedPost state
+  
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -54,7 +59,8 @@ function Profile() {
 
     dispatch(addPost_User(post));
     console.log('get socialAppStore.getState()', socialAppStore.getState());
-    navigate('/updateprofilepost');
+    setSelectedPost(post); // Set the selected post
+    setShowModal(true);
   }
 
   function deletePost(post) {
@@ -79,30 +85,35 @@ function Profile() {
     });
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedPost(null); // Reset the selected post
+  };
+
   return (
     <div>
       <NavBar />
       <Container>
-        <div className="container text-center">
-          <div className="row">
-            <div className="col-4">
+        <div className="profile-container">
+          <Row>
+            <Col xs={12} md={4}>
               <CreateProfilePost />
-            </div>
-            <div className="col-8">
-              <h3>Your posts thus far</h3>
+            </Col>
+            <Col xs={12} md={8}>
+              <h3 className="profile-title">Your Posts</h3>
               <Row>
                 {posts.map((post, index) => (
-                  <Col key={index} xs={12} md={4} lg={3} className="mb-4">
-                    <Card>
-                      <div className="card-header">
-                        <button onClick={() => updatePost(post)} className="btn btn-success">
+                  <Col key={index} xs={12} md={6} lg={4} className="mb-4">
+                    <Card className="post-card">
+                      <div className="post-card-header">
+                        <Button onClick={() => updatePost(post)} variant="primary" size="sm">
                           <FontAwesomeIcon icon={faEdit} />
-                        </button>
-                        <button onClick={() => deletePost(post)} className="btn btn-danger">
+                        </Button>
+                        <Button onClick={() => deletePost(post)} variant="danger" size="sm">
                           <FontAwesomeIcon icon={faTrash} />
-                        </button>
+                        </Button>
                       </div>
-                      <div>
+                      <div className="post-card-media">
                         {post.mediaUrl && !imageErrors[index] ? (
                           <Card.Img
                             variant="top"
@@ -115,21 +126,26 @@ function Profile() {
                         )}
                       </div>
                       <Card.Body>
-                        <h5>
-                          <Card.Text>{post.caption}</Card.Text>
-                        </h5>
-                        <p>
-                          <Card.Text>{post.content}</Card.Text>
-                        </p>
+                        <h5 className="post-card-caption">{post.caption}</h5>
+                        <p className="post-card-content">{post.content}</p>
                       </Card.Body>
                     </Card>
                   </Col>
                 ))}
               </Row>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </div>
       </Container>
+
+      <Modal show={showModal} onHide={closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Profile Post</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedPost && <UpdateProfilePost post={selectedPost} closeModal={closeModal} />} {/* Pass selectedPost and closeModal */}
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

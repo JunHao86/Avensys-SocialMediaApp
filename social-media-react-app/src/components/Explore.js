@@ -9,6 +9,7 @@ import NavBar from './NavBar';
 
 function Explore() {
     const [posts, setPosts] = useState(null);
+    const [imageErrors, setImageErrors] = useState([]);
   
     const navigate = useNavigate();
   
@@ -32,6 +33,14 @@ function Explore() {
 
     console.log('Posts:', posts);
   
+    const handleImageError = index => {
+        setImageErrors(prevErrors => {
+          const updatedErrors = [...prevErrors];
+          updatedErrors[index] = true;
+          return updatedErrors;
+        });
+      };
+
     return (
         <div>
             <NavBar />
@@ -44,8 +53,15 @@ function Explore() {
                             <Card.Text>Post by : {post.user.username}</Card.Text>
                         </div>
                         <div>
-                        {post.mediaUrl && (
-                            <Card.Img variant="top" src={post.mediaUrl} alt="mediaUrl not found" />
+                        {post.mediaUrl && !imageErrors[index] ? (
+                          <Card.Img
+                            variant="top"
+                            src={post.mediaUrl}
+                            alt="Error occurred"
+                            onError={() => handleImageError(index)}
+                          />
+                        ) : (
+                          <a href={post.mediaUrl}>Hyperlink</a>
                         )}
                         </div>
                         <Card.Body>
