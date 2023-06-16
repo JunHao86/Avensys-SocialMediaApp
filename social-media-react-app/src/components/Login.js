@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Card, Container, Form, Row, Col, Alert } from 'react-bootstrap';
+import { Card, Container, Form, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -44,31 +45,55 @@ function Login() {
   }, []);
 
   return (
-    <Container>
-      <Row className="justify-content-center">
-        <Col md={6}>
-          <Card className="p-4 shadow-sm">
-            <Card.Header className="text-center font-weight-bold">SocialMedia App</Card.Header>
-            <Card.Body>
-              {error && <Alert variant="danger">{error}</Alert>}
-              {successMessage && <Alert variant="success">{successMessage}</Alert>}
-              <Form noValidate onSubmit={handleSubmit}>
-                <Form.Group controlId="username" className="mb-3">
-                  <Form.Label>Username</Form.Label>
-                  <Form.Control type="text" required onChange={(e) => setUsername(e.target.value)} className="rounded-pill" />
-                </Form.Group>
-                <Form.Group controlId="password" className="mb-3">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" required onChange={(e) => setPassword(e.target.value)} className="rounded-pill" />
-                </Form.Group>
-                <Button type="submit" variant="primary" className="btn-block rounded-pill mb-3">Login</Button>
-                <Button href="/register" variant="secondary" className="btn-block rounded-pill mb-3">Create User</Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <div className="login-page">
+      <Container>
+        <Row className="justify-content-center align-items-center" style={{ height: '100vh' }}>
+          <Col md={4}>
+            <Card className="my-5 mx-auto" style={{ borderRadius: '1rem' }}>
+              <Card.Body className="p-5 d-flex flex-column align-items-center mx-auto w-100">
+                <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
+                <p className="mb-5">Please enter your login and password!</p>
+                {error && <Alert variant="danger">{error}</Alert>}
+                {successMessage && <Alert variant="success">{successMessage}</Alert>}
+                <Form noValidate onSubmit={handleSubmit}>
+                  <Form.Group controlId="username" className="mb-4 w-100">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control
+                      type="email"
+                      required
+                      onChange={e => setUsername(e.target.value)}
+                      className="rounded-pill"
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="password" className="mb-4 w-100">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      required
+                      onChange={e => setPassword(e.target.value)}
+                      className="rounded-pill"
+                    />
+                  </Form.Group>
+                  <p className="small mb-2 pb-lg-2">
+                    <a href="#!">Forgot password?</a>
+                  </p>
+                  <div className="button-container mb-3">
+                  <button type="submit" className={`rounded-pill ${username && password ? 'active' : ''}`}  >
+                    Login
+                  </button>
+                  </div>
+                  <div>
+                    <p className="mb-0">
+                      Don't have an account? <a href="/register">Sign Up</a>
+                    </p>
+                  </div>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
 
