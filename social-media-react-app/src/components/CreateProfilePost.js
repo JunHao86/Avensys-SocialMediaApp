@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import React from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form, Row } from 'react-bootstrap';
 import axios from 'axios';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { app } from './Firebase';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faSpinner} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './CreateProfilePost.css'; // Import custom CSS file
+import './CreateProfilePost.css'; 
+import ProfileBio from './ProfileBio';
+// eslint-disable-next-line
+import { app } from './Firebase'; //do not remove
 
 function CreateProfilePost() {
+  const [isLoading, setIsLoading] = useState(false);
   const userObject = localStorage.getItem('user');
   const username = localStorage.getItem('username');
   const storage = getStorage();
@@ -38,6 +41,7 @@ function CreateProfilePost() {
 
   // Event to handle file upload
   const handleFileUpload = async (event) => {
+    setIsLoading(true);
     const file = event.target.files[0];
     const storageRef = ref(storage, 'gs://springtest-f7ba8.appspot.com/' + file.name);
 
@@ -58,6 +62,7 @@ function CreateProfilePost() {
       console.error('Error uploading file:', error);
       setUploadStatus('Error uploading file');
     }
+    setIsLoading(false);
   };
 
   const handleChange = (event) => {
@@ -87,12 +92,17 @@ function CreateProfilePost() {
   };
 
   return (
-    <Container>
+    <Container >
+      <Row>
+        <ProfileBio/>
+      </Row>
+      <Row class="border border-secondary rounded">
+      {/* <Row> */}
       <div className="create-profile-post-container">
         <h3 className="create-profile-post-title">Write something new for your friends to see!</h3>
         <Form onSubmit={handleSubmit} className="create-profile-post-form">
           <Form.Group controlId="caption">
-            <Form.Label>Title</Form.Label>
+            <Form.Label>Caption</Form.Label>
             <Form.Control type="text" name="caption" required placeholder="Enter Title" onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="content">
@@ -106,11 +116,18 @@ function CreateProfilePost() {
             </div>
           </Form.Group>
           {uploadStatus && <p>{uploadStatus}</p>}
-          <Button type="submit" variant="primary" className="btn-block rounded-pill create-profile-post-submit">
-            Submit <FontAwesomeIcon icon={faArrowRight} />
+          <Button type="submit" variant="primary" className="btn-block rounded-pill mb-3" disabled={isLoading}>
+            {isLoading ? (<>
+              <span className="align-middle">Uploading File</span>{" "}
+              <FontAwesomeIcon icon={faSpinner} spin className="align-middle" /></>
+            ) : (<>
+              <span className="align-middle">Submit</span>{" "}
+              <FontAwesomeIcon icon={faArrowRight} className="align-middle" /></>
+            )}
           </Button>
         </Form>
       </div>
+      </Row>
     </Container>
   );
 }

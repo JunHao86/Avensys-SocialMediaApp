@@ -55,13 +55,12 @@ function UpdateProfilePost({ post, closeModal }) {
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="content">
-                  <Form.Label>Content</Form.Label>
-                  <Form.Control type="text" required name="content" value={formData.content} onChange={handleChange} />
-                </Form.Group>
-                
                 <Form.Group controlId="caption">
                   <Form.Label>Caption</Form.Label>
                   <Form.Control type="text" required name="caption" value={formData.caption} onChange={handleChange} />
+                </Form.Group>
+                  <Form.Label>Content</Form.Label>
+                  <Form.Control type="text" required name="content" value={formData.content} onChange={handleChange} />
                 </Form.Group>
                 <Form.Group controlId="createdAt">
                   <Form.Label>Date Created</Form.Label>

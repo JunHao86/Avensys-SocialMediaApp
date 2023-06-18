@@ -17,6 +17,7 @@ function Profile() {
   const [imageErrors, setImageErrors] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null); // Added selectedPost state
+  
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
