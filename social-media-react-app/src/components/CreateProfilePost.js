@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import React from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form, Row } from 'react-bootstrap';
 import axios from 'axios';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { app } from './Firebase'; //do not remove
 import { faArrowRight, faSpinner} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './CreateProfilePost.css'; // Import custom CSS file
+import ProfileBio from './ProfileBio';
 
 function CreateProfilePost() {
   const [isLoading, setIsLoading] = useState(false);
@@ -90,7 +91,12 @@ function CreateProfilePost() {
   };
 
   return (
-    <Container>
+    <Container >
+      <Row>
+        <ProfileBio/>
+      </Row>
+      <Row class="border border-secondary rounded">
+      {/* <Row> */}
       <div className="create-profile-post-container">
         <h3 className="create-profile-post-title">Write something new for your friends to see!</h3>
         <Form onSubmit={handleSubmit} className="create-profile-post-form">
@@ -120,6 +126,7 @@ function CreateProfilePost() {
           </Button>
         </Form>
       </div>
+      </Row>
     </Container>
   );
 }
