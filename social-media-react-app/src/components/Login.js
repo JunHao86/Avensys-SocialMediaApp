@@ -57,9 +57,9 @@ function Login() {
                 {successMessage && <Alert variant="success">{successMessage}</Alert>}
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group controlId="username" className="mb-4 w-100">
-                    <Form.Label>Email address</Form.Label>
+                    <Form.Label>Username</Form.Label>
                     <Form.Control
-                      type="email"
+                      type="text"
                       required
                       onChange={e => setUsername(e.target.value)}
                       className="rounded-pill"
