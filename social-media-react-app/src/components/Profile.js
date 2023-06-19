@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import './Profile.css'; // Import custom CSS file
 import UpdateProfilePost from './UpdateProfilePost';
+import ReactPlayer from 'react-player';
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -17,7 +18,7 @@ function Profile() {
   const [imageErrors, setImageErrors] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null); // Added selectedPost state
-  
+
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -113,7 +114,7 @@ function Profile() {
                           <FontAwesomeIcon icon={faTrash} />
                         </Button>
                       </div>
-                      <div className="post-card-media" >
+                      <div className="post-card-media">
                         {post.mediaUrl && !imageErrors[index] ? (
                           <Card.Img
                             variant="top"
@@ -122,7 +123,17 @@ function Profile() {
                             onError={() => handleImageError(index)}
                           />
                         ) : (
-                          <a href={post.mediaUrl}>Hyperlink</a>
+                          post.mediaUrl && (
+                            <div className="video-player-wrapper">
+                              <ReactPlayer
+                                className="react-player"
+                                url={post.mediaUrl}
+                                controls
+                                width="100%"
+                                height="100%"
+                              />
+                            </div>
+                          )
                         )}
                       </div>
                       <Card.Body>
