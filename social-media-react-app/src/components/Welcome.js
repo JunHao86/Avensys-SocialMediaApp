@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import NavBar from './NavBar';
+import ReactPlayer from 'react-player';
 
 function Welcome() {
   const [user, setUser] = useState(null);
@@ -60,18 +61,31 @@ function Welcome() {
           {posts.map((post, index) => (
             <Col key={index} xs={12} md={4} lg={3} className="mb-4">
               <Card>
-                {post.mediaUrl && !imageErrors[index] ? (
-                <Card.Img
-                variant="top"
-                src={post.mediaUrl}
-                alt="Error occurred"
-                onError={() => handleImageError(index)}
-                />
-                ) : (
-                <a href={post.mediaUrl}>Hyperlink</a>
-                )}
+              <div>
+                  {post.mediaUrl && !imageErrors[index] ? (
+                    <Card.Img
+                      variant="top"
+                      src={post.mediaUrl}
+                      alt="Error occurred"
+                      onError={() => handleImageError(index)}
+                    />
+                  ) : (
+                    post.mediaUrl && (
+                      <div className="video-player-wrapper">
+                        <ReactPlayer
+                          className="react-player"
+                          url={post.mediaUrl}
+                          controls
+                          width="100%"
+                          height="100%"
+                        />
+                      </div>
+                    )
+                  )}
+                </div>
                 <Card.Body>
-                  <Card.Text>{post.content}</Card.Text>
+                    <h5 className="post-card-caption">{post.caption}</h5>
+                    <p className="post-card-content">{post.content}</p>
                 </Card.Body>
               </Card>
             </Col>
