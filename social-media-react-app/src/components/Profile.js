@@ -113,7 +113,7 @@ function Profile() {
                           <FontAwesomeIcon icon={faTrash} />
                         </Button>
                       </div>
-                      <div className="post-card-media">
+                      <div className="post-card-media" >
                         {post.mediaUrl && !imageErrors[index] ? (
                           <Card.Img
                             variant="top"

@@ -3,6 +3,7 @@ import {Container, Card, Image} from 'react-bootstrap';
 import './CreateProfilePost.css'; // Import custom CSS file
 
 function ProfileBio() {
+  const userObject = localStorage.getItem('user');
   const username = localStorage.getItem('username');
 
   return (

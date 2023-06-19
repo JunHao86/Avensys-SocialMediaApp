@@ -74,14 +74,12 @@ public class UserService {
    //=============================================================
    //Post Service (CRUD)
     
-    //Create - used in @PostMapping("/userposts/{username}/post/") (not tested)
-    //!!!!!!!!!!!!!!!!!!!!!!!!!
+    //Create - used by user to create Post  (tested)
     public void createPost(Post newPost) {
     	postRepository.save(newPost);    	
     }
 
-    //Read singular post - used in ?? (not tested)
-    //!!!!!!!!!!!!!!!!!!!!!!!!!
+    //Read singular post - used by user to update Post (tested)
 	public Optional<Post> getPostByPostId(int post_id) {
 		return postRepository.findById(post_id);
 	}
@@ -97,13 +95,12 @@ public class UserService {
 		return (List<Post>) postRepository.findAll();
 	}
     
-	//Update - used in @GetMapping("/userposts/{username}/update/{post_id}/") (not tested)
-    //!!!!!!!!!!!!!!!!!!!!!!!!!
+	//Update - used by ??
 	public void updatePostByPostId(Optional<Post> post) {
 		postRepository.save(post);
 	}
     
-	//Update - used in @GetMapping("/userposts/{username}/update/{post_id}/") (tested)
+	//Update - used by Admin (tested)
     public void updatePostByID(int id, Post post) {
         Optional<Post> tempPost = postRepository.findById(id);
         if (tempPost.isPresent()) {
@@ -117,7 +114,7 @@ public class UserService {
         }
     }
 	
-	//Delete - used in @GetMapping("/userposts/{username}/delete/{post_id}") (tested)
+	//Delete - used by User/Admin (tested)
 	public void deletePostByPostId(int post_id) {
 		postRepository.deleteById(post_id);
 	}
