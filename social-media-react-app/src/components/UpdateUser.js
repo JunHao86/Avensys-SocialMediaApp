@@ -82,8 +82,8 @@ function UpdateUser({ user, closeModal }) {
             onChange={handleChange}
           >
             <option value=''>Select Role</option>
-            <option value='admin'>Admin</option>
-            <option value='user'>User</option>
+            <option value='Admin'>Admin</option>
+            <option value='User'>User</option>
           </Form.Select>
         </Form.Group>
 
