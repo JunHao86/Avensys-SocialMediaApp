@@ -14,7 +14,6 @@ function Explore() {
     const navigate = useNavigate();
   
     useEffect(() => {
-      const username = localStorage.getItem('username');
     
       axios
         .get(`http://localhost:8080/admin/posts`)

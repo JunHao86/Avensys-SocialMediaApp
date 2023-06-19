@@ -3,11 +3,12 @@ import React from 'react';
 import { Button, Container, Form, Row } from 'react-bootstrap';
 import axios from 'axios';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { app } from './Firebase'; //do not remove
 import { faArrowRight, faSpinner} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './CreateProfilePost.css'; // Import custom CSS file
+import './CreateProfilePost.css'; 
 import ProfileBio from './ProfileBio';
+// eslint-disable-next-line
+import { app } from './Firebase'; //do not remove
 
 function CreateProfilePost() {
   const [isLoading, setIsLoading] = useState(false);
