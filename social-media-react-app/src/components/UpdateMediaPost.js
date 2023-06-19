@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-
-
+import { faCheck, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 function UpdateMediaPost({ post }) {
   const [formData, setFormData] = useState(post);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event) => {
     setFormData({
@@ -19,6 +18,8 @@ function UpdateMediaPost({ post }) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    setIsLoading(true); // Enable loading state
+
     axios
       .post('http://localhost:8080/admin/update/post', formData)
       .then((response) => {
@@ -27,6 +28,9 @@ function UpdateMediaPost({ post }) {
       })
       .catch((error) => {
         console.error(`Error updating post: ${error}`);
+      })
+      .finally(() => {
+        setIsLoading(false); // Disable loading state
       });
   };
 
@@ -68,7 +72,7 @@ function UpdateMediaPost({ post }) {
         />
       </Form.Group>
 
-      <Form.Group controlId="createdAt" className='mb-3'>
+      <Form.Group controlId="createdAt" className="mb-3">
         <Form.Label>Date Created</Form.Label>
         <Form.Control
           type="text"
@@ -79,8 +83,12 @@ function UpdateMediaPost({ post }) {
           disabled
         />
       </Form.Group>
-      <Button type="submit" variant="primary">
-        <FontAwesomeIcon icon={faCheck} size='2x' />
+      <Button type="submit" variant="primary" disabled={isLoading}>
+        {isLoading ? (
+          <FontAwesomeIcon icon={faSpinner} spin />
+        ) : (
+          <FontAwesomeIcon icon={faCheck} size="2x" />
+        )}
       </Button>
     </Form>
   );
